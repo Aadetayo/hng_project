@@ -22,8 +22,8 @@ def input_required():
     getTime = (datetime.utcnow() - timedelta(minutes=2)).strftime('%Y-%m-%dT%H:%M:%SZ')
     
     #
-    repoFileLink = 'https://github.com/username/repo/blob/main/file_name.ext'
-    repoLink = 'https://github.com/username/repo'
+    repoFileLink = 'https://github.com/Aadetayo/hng_project/blob/43769401100734cd703ed8787a524f0ac332c519/endpoint.py'
+    repoLink = 'https://github.com/Aadetayo/hng_project'
     
     response_data = {
         "slack_name": getSlackName,
