@@ -13,7 +13,7 @@ Install Dependencies: Navigate to the project directory and install the required
 
     bash
 
-    pip install flask flask_sqlalchemy flask_marshmallow
+    pip install flask flask-sqlalchemy flask-marshmallow
 
 <h2>Run</h2>
 Database Initialization: Before running the API, you need to initialize the SQLite database. Run the following command to create the database:
