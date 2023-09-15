@@ -1,4 +1,4 @@
-Setup, Run, and Use the API
+<h1>Setup, Run, and Use the API</h1>
 
 This README provides instructions on how to set up, run, and use the API implemented in the provided Python code.
 Setup
