@@ -48,7 +48,7 @@ Response:
         ...
     ]
 
-3. <Strong>Get Person by ID<strong>
+3. <Strong>Get Person by ID</strong>
 
 Endpoint: ```GET /api/person/{id}```
 
