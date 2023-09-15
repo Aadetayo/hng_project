@@ -1,133 +1,226 @@
-<h1>Setup, Run, and Use the API</h1>
+# Hosted API Usage Guide
 
-This README provides instructions on how to set up, run, and use the API implemented in the provided Python code.
-Setup
+This API provides CRUD (Create, Read, Update, Delete) operations for managing a list of persons' biodata. You can interact with the API by making HTTP requests to the provided endpoints.
 
-Clone the Repository: Begin by cloning this repository to your local machine using the following command:
+API Base URL: http://16.171.139.244/api/person
 
-    bash
+## Endpoints
 
-    git clone <repository-url>
+### 1. Create a Person Record (POST)
+Create a new person record with a name and age.
 
-Install Dependencies: Navigate to the project directory and install the required dependencies using pip:
+- **Endpoint:** `/api/person`
+- **Method:** POST
+- **Request Body:**
 
-    bash
-
-    pip install flask flask-sqlalchemy flask-marshmallow
-
-<h2>Run</h2>
-Database Initialization: Before running the API, you need to initialize the SQLite database. Run the following command to create the database:
-
-
-    bash
-
-    python
-    
-python
-
-    from app import db
-    with app.app_context():
-        db.create_all()
-
-Run the API: Start the Flask development server to run the API locally:
-
-    bash
-
-    python app.py
-
-The API should now be running at ```http://localhost:9000```.
-
-<h2>Use the API</h2>
-
-The API exposes several endpoints for CRUD (Create, Read, Update, Delete) operations on person records. You can interact with the API using tools like curl, Postman, or by writing your own code.
-Endpoints:
-
-Create a Person Record:
-
-    http
-
-    POST /api/person
-
-Example Request:
-
-    json
-
+    ```json
     {
+        "name": "string",
+        "age": integer
+    }
+    ```
+
+- **Response:**
+
+    ```json
+    {
+        "id": integer,
+        "name": "string",
+        "age": integer
+    }
+    ```
+
+### 2. Get All Persons (GET)
+Retrieve a list of all persons' biodata.
+
+- **Endpoint:** `/api/person`
+- **Method:** GET
+- **Response:**
+
+    ```json
+    [
+        {
+            "id": integer,
+            "name": "string",
+            "age": integer
+        },
+        ...
+    ]
+    ```
+
+### 3. Get Person by ID (GET)
+Retrieve a person's biodata by their ID.
+
+- **Endpoint:** `/api/person/{id}`
+- **Method:** GET
+- **Response:**
+
+    ```json
+    {
+        "id": integer,
+        "name": "string",
+        "age": integer
+    }
+    ```
+
+- **Error Response (Person Not Found):**
+
+    ```json
+    {
+        "message": "Person not found"
+    }
+    ```
+
+### 4. Get Person by Name (GET)
+Retrieve a person's biodata by their name.
+
+- **Endpoint:** `/api/person/{name}`
+- **Method:** GET
+- **Response:**
+
+    ```json
+    {
+        "id": integer,
+        "name": "string",
+        "age": integer
+    }
+    ```
+
+- **Error Response (Person Not Found):**
+
+    ```json
+    {
+        "message": "Person not found"
+    }
+    ```
+
+### 5. Update Person by ID (PUT)
+Update a person's biodata by their ID.
+
+- **Endpoint:** `/api/person/{id}`
+- **Method:** PUT
+- **Request Body:**
+
+    ```json
+    {
+        "name": "string",
+        "age": integer
+    }
+    ```
+
+- **Response:**
+
+    ```json
+    {
+        "id": integer,
+        "name": "string",
+        "age": integer
+    }
+    ```
+
+- **Error Response (Person Not Found):**
+
+    ```json
+    {
+        "message": "Person not found"
+    }
+    ```
+
+### 6. Update Person by Name (PUT)
+Update a person's biodata by their name.
+
+- **Endpoint:** `/api/person/{name}`
+- **Method:** PUT
+- **Request Body:**
+
+    ```json
+    {
+        "name": "string",
+        "age": integer
+    }
+    ```
+
+- **Response:**
+
+    ```json
+    {
+        "id": integer,
+        "name": "string",
+        "age": integer
+    }
+    ```
+
+- **Error Response (Person Not Found):**
+
+    ```json
+    {
+        "message": "Person not found"
+    }
+    ```
+
+### 7. Delete Person by ID (DELETE)
+Delete a person's biodata by their ID.
+
+- **Endpoint:** `/api/person/{id}`
+- **Method:** DELETE
+- **Response:**
+
+    ```json
+    {
+        "id": integer,
+        "name": "string",
+        "age": integer
+    }
+    ```
+
+- **Error Response (Person Not Found):**
+
+    ```json
+    {
+        "message": "Person not found"
+    }
+    ```
+
+## Sample Usage
+
+1. Creating a Person Record
+
+   Request:
+
+   ```http
+   POST http://16.171.139.244/api/person
+   Content-Type: application/json
+
+   {
+       "name": "John Doe",
+       "age": 30
+   }
+    ```
+2. Getting a Person Record
+
+   Request:
+
+   ```http
+   GET http://16.171.139.244/api/person
+   ```
+   Response Success:
+
+   [
+    ```{
+        "id": 1,
         "name": "John Doe",
         "age": 30
-    }
-
-Get All Persons:
-
-    http
-
-    GET /api/person
-
-Get Person by ID:
-
-    http
-
-    GET /api/person/{id}
-
-Get Person by Name:
-
-    http
-
-    GET /api/person/{name}
-
-Update Person by ID:
-
-    http
-
-    PUT /api/person/{id}
-
-Example Request:
-
-    json
-
+    },
     {
-        "name": "Updated Name",
-        "age": 35
-    }
+        "id": 2,
+        "name": "Jane Smith",
+        "age": 25
+    },
+    ...
+]
 
-Update Person by Name:
+### Important Note
 
-    http
+The API is hosted at ```http://16.171.139.244/api/person```
 
-    PUT /api/person/{name}
-
-Example Request:
-
-    json
-
-    {
-        "name": "Updated Name",
-        "age": 35
-    }
-
-Delete Person by ID:
-
-    http
-
-    DELETE /api/person/{id}
-
-Sample Usage:
-
-1. To create a new person record, make a POST request to ```/api/person``` with the person's name and age in the request body.
-2. To retrieve all person records, make a GET request to ```/api/person```.
-3. To update a person's information by their ID, make a PUT request to ```/api/person/{id}``` with the updated data in the request body.
-
-To delete a person record by their ID, make a DELETE request to ```/api/person/{id}```.
-
-
-<h2><strong>Known Limitations </strong></h2>
-
-This API uses SQLite as the database, which is suitable for development and testing purposes. For production, consider using a more robust database system like PostgreSQL or MySQL.
-
-Error handling is minimal in this code and can be improved for production use.
-
-Local Deployment
-
-To deploy the API locally, follow the setup and run instructions provided earlier. The API will be accessible at ```http://localhost:9000```.
-
-For deploying the API on a server, additional steps and configurations are required, such as setting up a web server (e.g., Nginx) and using a production-ready database. Ensure proper security measures are taken when deploying in a production environment.
+Feel free to use the provided API endpoints to manage persons' biodata as needed. Adjust the sample requests and responses to suit your requirements.
