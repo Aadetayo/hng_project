@@ -1,0 +1,69 @@
+from flask import Flask, request, jsonify
+from flask_sqlalchemy import SQLAlchemy
+from flask_marshmallow import Marshmallow
+
+app = Flask(__name__)
+
+# Configure the SQLite database
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///persons.db'
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+
+# Initialize SQLAlchemy and Marshmallow inside the app context
+db = SQLAlchemy(app)
+ma = Marshmallow(app)
+
+# biodata model for the info of the person
+class Biodata(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(100), nullable=False)
+    age = db.Column(db.String(3), nullable=False)
+
+# Define the biodata Schema for serialization
+class BiodataSchema(ma.Schema):
+    class Meta:
+        fields = ('id', 'name', 'age')
+
+biodataSchemaInit = BiodataSchema()
+biodataSchemaInitMany = BiodataSchema(many=True)
+
+# Routes for CRUD operations
+@app.route('/api/person', methods=['POST'])
+def add_entry():
+    addname = request.json['name']
+    addAge = request.json['age']
+    new_entry = Biodata(name=addname, age=addAge)
+    db.session.add(new_entry)
+    db.session.commit()
+    return biodataSchemaInit.jsonify(new_entry)
+
+@app.route('/api/person', methods=['GET'])
+def get_persons():
+    all_persons = Biodata.query.all()
+    return biodataSchemaInitMany.jsonify(all_persons)
+
+@app.route('/api/person/<int:id>', methods=['GET'])
+def get_entry(id):
+    getperson = Biodata.query.get(id)
+    return biodataSchemaInit.jsonify(getperson)
+
+@app.route('/api/person/<int:id>', methods=['PUT'])
+def update_person(id):
+    putperson = Biodata.query.get(id)
+    name = request.json['name']
+    age = request.json['age']
+    putperson.name = name
+    putperson.age = age
+    db.session.commit()
+    return biodataSchemaInit.jsonify(putperson)
+
+@app.route('/api/person/<int:id>', methods=['DELETE'])
+def delete_person(id):
+    person = Biodata.query.get(id)
+    db.session.delete(person)
+    db.session.commit()
+    return biodataSchemaInit.jsonify(person)
+
+if __name__ == '__main__':
+    with app.app_context():
+        db.create_all()
+    app.run(port=9000, debug=True)
