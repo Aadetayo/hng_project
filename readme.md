@@ -102,7 +102,7 @@ Example Request:
 
     {
         "name": "Updated Name",
-    "age": 35
+        "age": 35
     }
 
 Delete Person by ID:
